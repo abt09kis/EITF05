@@ -30,11 +30,78 @@ Implementation:
 Name: SQLInjection
 
 Description:
+	SQL injections targets the database through entering data which is interpreted as database logic.
+Example:
+	SQL_Vulnerable.php:
+		This example program prints out the name of a user if it enters the correct uid AND the correct pwd.
+	<?php
+		$mysqli = new mysqli("localhost", "eitf05usr", "eitf05pass", "EITF05");
+		if ($mysqli->connect_errno) {
+			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+		}
+		
+		$uid = $_POST['uid'];
+		$pwd = $_POST['pwd'];
+		$sql = "SELECT * FROM Users WHERE uid = '$uid' AND pwd = '$pwd'";
+		echo "$sql <br/>";
+		
+		$res = $mysqli->query($sql);
+		while ($row = $res->fetch_assoc()) {
+			echo " uid = " . $row['uid'] . "<br/>";
+		}
+		$res->free();
+		$mysqli->close();
+	?>
+
+	Regular HTML form which uses HTTP POST method to deliver uid and pwd to SQL_Vulnerable: 
+	<form action="./SQL_Vulnerable.php" method="POST">
+		UID:<br>
+	  	<input type="text" name="uid" value="">
+	  	<br>
+	  	PWD:<br>
+	  	<input type="text" name="pwd" value="">
+	  	<br><br>
+	  	<input type="submit" value="Submit">
+	</form>
+	
+	If an advasary were to enter (for example) $uid = ' OR 'X' = 'X  AND $pwd = ' OR 'Y' = 'Y
+	then the combined SQL string will be SELECT * FROM Users WHERE uid = '' OR 'X' = 'X' AND pwd = '' OR 'Y' = 'Y' 
+	Note that this expressions is valid for ALL Users, and thus all uid's will be echoed... 
 
 Prevention:
+	We need to make sure that the data we receive is not interpreted as logic.
+	The standard way to do this is through using so called prepared statements.
 
-Implementation:
+	A prepared statement is a statement which is created before the data to be used is supplied. 
+	For example: SELECT uid, pwd FROM Users WHERE uid = ? AND pwd = ?
+	This statement is sent to the database management system (DBSM).
+	The DBSM will then compile the statement and store the result (the logic which it can later execute).
+	At a later time we may send data to the DBSM which is executed with the prepared logic. Thus prepared
+	statements are both more efficient (only need to send logic once) as well as secure against SQL Injections.
 
+	Example:
+	<?php
+		$mysqli = new mysqli("localhost", "eitf05usr", "eitf05pass", "EITF05");
+		if ($mysqli->connect_errno) {
+			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+		}
+		$sql = "SELECT uid, pwd FROM Users WHERE uid = ? AND pwd = ?";
+		$stmt = $mysqli->prepare($sql);
+		$uid = $_POST['uid'];
+		$pwd = $_POST['pwd'];
+		if($stmt->bind_param('ss', $uid, $pwd)){
+			if($stmt->execute()){
+				$res_uid = NULL;
+				$res_pwd = NULL;
+				$stmt->bind_result($res_uid, $res_pwd);
+				while ($stmt->fetch()) {
+				    echo 'uid = ' . $res_uid . ', pwd = ' . $res_pwd;
+				}
+				$stmt->free_result();
+			}
+		}
+		$mysqli->close();
+	?>
 
 
 Name: Remote File Inclusion
