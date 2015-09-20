@@ -1,0 +1,64 @@
+Attacks
+
+--------------------------------------------------
+
+Online Attacks
+
+--------------------------------------------------
+
+
+Name: XSS
+
+Description:
+
+Prevention: 
+
+Implementation:
+
+
+
+Name: CSRF
+
+Description:
+
+Prevention:
+
+Implementation:
+
+
+
+Name: SQLInjection
+
+Description:
+
+Prevention:
+
+Implementation:
+
+
+
+Name: Remote File Inclusion
+
+Description:
+
+Prevention:
+
+Implementation:
+
+
+
+--------------------------------------------------
+
+Offline Attacks
+
+--------------------------------------------------
+
+
+
+Name: TMTO
+
+Description:
+
+Prevention:
+
+Implementation:
