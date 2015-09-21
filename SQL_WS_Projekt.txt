@@ -1,0 +1,29 @@
+CREATE TABLE users
+(
+email VARCHAR(30),
+hash VARCHAR(100) NOT NULL,
+salt VARCHAR(10) NOT NULL,
+nbrAttempts INT,
+PRIMARY KEY (email)
+);
+
+CREATE TABLE items
+(
+itemId VARCHAR(30),
+cost INT,
+PRIMARY KEY (itemId)
+);
+
+CREATE TABLE purchases
+(
+purchDate DATE NOT NULL,
+email VARCHAR(30),
+itemId VARCHAR(30),
+FOREIGN KEY (itemId) REFERENCES items(itemId),
+FOREIGN KEY (email) REFERENCES users(email)
+);
+
+INSERT INTO items (itemId,cost)
+VALUES ("banana", 5);
+INSERT INTO items (itemId,cost)
+VALUES ("apple", 30);
