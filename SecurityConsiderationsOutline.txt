@@ -81,7 +81,11 @@ Prevention:
 
 	Example:
 	<?php
-		$mysqli = new mysqli("localhost", "eitf05usr", "eitf05pass", "EITF05");
+	$sql_user = ini_get("mysql.default_user");
+	$sql_host = ini_get("mysql.default_host");
+	$sql_pass = ini_get("mysql.default_password");
+
+	$mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "EITF05");
 		if ($mysqli->connect_errno) {
 			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 		}
@@ -102,7 +106,22 @@ Prevention:
 		}
 		$mysqli->close();
 	?>
+Extra:
+	Note that Database Credentials (sql: {username, password, host}) are no longer stored in the source code.
+	They are stored in a separate configuration file which is included by the apache server: 
 
+	In apache2.conf:
+		<Directory /var/www/html/SQL>
+			Options Indexes FollowSymLinks
+			Require all granted
+			Allowoverride None 
+			Include ./user-conf/SQL/php.conf
+		</Directory>
+
+	In ./user-conf/SQL/php.conf:
+		php_value mysql.default_user "eitf05usr"
+		php_value mysql.default_password "eitf05pass"
+		php_value mysql.default_host "127.0.0.1"
 
 Name: Remote File Inclusion
 
@@ -129,3 +148,13 @@ Description:
 Prevention:
 
 Implementation:
+
+
+--------------------------------------------------
+
+Server Configurations
+
+--------------------------------------------------
+Name: php.ini considerations ...
+
+Name: apache2.conf (httpd.conf) considerations...
