@@ -25,7 +25,7 @@
 			return false;
 		}
 		session_start();
-		//$_SESSION[$this->GetLoginSessionVar()] = $username;  
+		//$_SESSION[$this->GetLoginSessionVar()] = $username;
 		return true;
 	}
 
@@ -47,6 +47,13 @@
 	    	$stmt2 = $mysqli->prepare($sql2))
 
 		// $salt = ( FETCH SALT FROM DB)
+    if($stmt2->bind_param('ss', $uid, $hash)){
+      if($stmt2->execute()){
+        $res_salt = NULL;
+        $stmt->bind_result($res_salt);
+        $stmt2->fetch();
+        $stmt->free_result();
+      }
 
 		$uid = $_POST['username'];
 		$hash = $this->generateHash($_POST['password'],  $salt);
