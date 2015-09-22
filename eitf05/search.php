@@ -32,7 +32,9 @@ print "1";
 
     print "6";
 
-    $search = strip_tags($_POST['search']);
+    $search = strip_tags($_POST['searchField']);
+
+    print  $search;
 
     print "7";
 
