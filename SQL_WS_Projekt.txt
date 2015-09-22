@@ -9,21 +9,30 @@ PRIMARY KEY (email)
 
 CREATE TABLE items
 (
-itemId VARCHAR(30),
+itemId INT NOT NULL AUTO_INCREMENT,
+itemName VARCHAR(30) NOT NULL,
 cost INT,
 PRIMARY KEY (itemId)
 );
+
+CREATE TABLE items
+(
+itemId int NOT NULL AUTO_INCREMENT,
+name VARCHAR(30)
+cost INT,
+PRIMARY KEY (itemId)
+); 
 
 CREATE TABLE purchases
 (
 purchDate DATE NOT NULL,
 email VARCHAR(30),
-itemId VARCHAR(30),
+itemId INT,
 FOREIGN KEY (itemId) REFERENCES items(itemId),
 FOREIGN KEY (email) REFERENCES users(email)
 );
 
-INSERT INTO items (itemId,cost)
+INSERT INTO items (itemName,cost)
 VALUES ("banana", 5);
-INSERT INTO items (itemId,cost)
+INSERT INTO items (itemName,cost)
 VALUES ("apple", 30);
