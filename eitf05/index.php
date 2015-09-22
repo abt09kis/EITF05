@@ -3,6 +3,7 @@
 <title> ProWebshop0.1</title>
 </head>
 <body>
+<?php
   <form id='login' action='login.php' method='post' accept-charset='UTF-8'>
   <fieldset >
   <legend>Login</legend>
@@ -19,5 +20,6 @@
 
   </fieldset>
   </form>
+?>
 </body>
 </html>

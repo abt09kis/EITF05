@@ -21,10 +21,10 @@ function Login(){
         return false;
     }
 
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    if(!$this->CheckLoginInDB($username,$password))
+    if(!$this->DBLogin($username,$password))
     {
         return false;
     }
@@ -35,29 +35,37 @@ function Login(){
 
     return true;
 }
+function generateHash($pwd, $salt){
+  return hash_pbkdf2('sha256', $pwd, $salt, 1000, 0, false);
+}
+function DBLogin($username, $password){
 
-  function CheckLoginInDB($username,$password){
-      if(!$this->DBLogin()){
-          $this->HandleError("Database login failed!");
-          return false;
-      }
-      $username = $this->SanitizeForSQL($username);
-      $pwdmd5 = md5($password);
-      $qry = "Select name, email from $this->tablename ".
-          " where username='$username' and password='$pwdmd5' ".
-          " and confirmcode='y'";
+  $mysqli = new mysqli($sql_host, $sql_user, $pas, "EITF05");
 
-      $result = mysql_query($qry,$this->connection);
+		if ($mysqli->connect_errno) {
+			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+		}
+		$sql = "SELECT email, pwd FROM Users WHERE uid = ? AND pwd = ?";
+    $sql2 = "SELECT salt FROM users WHERE uid = ?";
+		$stmt = $mysqli->prepare($sql);
+    $stmt2 = $mysqli->prepare($sql2))
+		$uid = $_POST['username'];
+		$pwd = $this->generateHash($_POST['password'],  $stmt2);
+		if($stmt->bind_param('ss', $uid, $pwd)){
+			if($stmt->execute()){
+				$res_uid = NULL;
+				$res_pwd = NULL;
+				$stmt->bind_result($res_uid, $res_pwd);
+				while ($stmt->fetch()) {
+				    echo 'uid = ' . $res_uid . ', pwd = ' . $res_pwd;
+				}
+				$stmt->free_result();
+			}
+		}
+		$mysqli->close();
 
-      if(!$result || mysql_num_rows($result) <= 0)
-      {
-          $this->HandleError("Error logging in. ".
-              "The username or password does not match");
-          return false;
-      }
+}
 
-      return true;
-  }
-  ?>
+?>
 </body>
 </html>
