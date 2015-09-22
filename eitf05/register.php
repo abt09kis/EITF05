@@ -16,6 +16,7 @@
 		return hash_pbkdf2('sha256', $pwd, $salt, 1000, 0, false);
 	}
 
+		
 
 	// Username must be unique
 	// Allowed characters password and username: [a-zA-Z0-9]
