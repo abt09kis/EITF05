@@ -71,7 +71,7 @@
 			}
 			// COMPARE res_pwd to $hash, if equal authenticated ...
       if($res_pwd == $hash){
-        header(search.php);
+        header("Location: http://localhost:80/meet2eat/login.php");
       }
 		}
 		$mysqli->close();
