@@ -32,11 +32,11 @@ print "1";
 
     print "6";
 
-    $search = $_POST['search'];
+    $search = strip_tags($_POST['search']);
 
     print "7";
 
-    $stmt->bind_param('ss', $search);
+    $stmt->bind_param('s', $search);
 
     print "8";
 
@@ -63,7 +63,7 @@ print "1";
 
     } else {
 
-        print "0 results for search: " . $search;
+        print "0 results for search: " . htmlspecialchars($search);
     }
     print "11";
 
