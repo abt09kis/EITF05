@@ -50,9 +50,10 @@
     if($stmt2->bind_param('ss', $uid, $hash)){
       if($stmt2->execute()){
         $res_salt = NULL;
-        $stmt->bind_result($res_salt);
+        $stmt2->bind_result($res_salt);
         $stmt2->fetch();
-        $stmt->free_result();
+          echo 'salt = '.$res_salt
+        $stmt2->free_result();
       }
 
 		$uid = $_POST['username'];
@@ -69,6 +70,9 @@
 				$stmt->free_result();
 			}
 			// COMPARE res_pwd to $hash, if equal authenticated ...
+      if($res_pwd == $hash){
+        header(search.php);
+      }
 		}
 		$mysqli->close();
 	}
