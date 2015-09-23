@@ -3,79 +3,64 @@
 ?>
 <html>
 	<head>
-		<title> ProWebshop0.1</title>
+		<title>ProWebshop0.1</title>
 	</head>
 <body>
+
 <?php
+	include_once "database.php";
+	include_once "crypto.php";
+
 	function Login(){
 		if(empty($_POST['username'])) {
-			$this->HandleError("UserName is empty!");
 			return false;
 		}
-
 		if(empty($_POST['password'])) {
-			$this->HandleError("Password is empty!");
 			return false;
 		}
-
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 
-		if(!$this->DBLogin($username,$password)) {
+		echo 'Attempted login: ' . $username . $password;
+		if(!DBLogin($username,$password)) {
 			return false;
 		}
 		session_start();
-		//$_SESSION[$this->GetLoginSessionVar()] = $username;
 		return true;
 	}
 
-	function generateHash($pwd, $salt){
-	  return hash_pbkdf2('sha256', $pwd, $salt, 1000, 0, false);
-	}
-
+	
 	function DBLogin($username, $password){
-		$sql_user = ini_get("mysql.default_user");
-		$sql_host = ini_get("mysql.default_host");
-		$sql_pass = ini_get("mysql.default_password");
-		$mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "EITF05");
-		if ($mysqli->connect_errno) {
-			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-		}
-		$sql = "SELECT email, pwd FROM Users WHERE uid = ? AND pwd = ?";
-	    	$sql2 = "SELECT salt FROM users WHERE uid = ?";
-		$stmt = $mysqli->prepare($sql);
-	    	$stmt2 = $mysqli->prepare($sql2))
+		$db = new Database();
+		$mysqli = $db->openConnection();	
 
-		// $salt = ( FETCH SALT FROM DB)
-    if($stmt2->bind_param('ss', $uid, $hash)){
-      if($stmt2->execute()){
-        $res_salt = NULL;
-        $stmt2->bind_result($res_salt);
-        $stmt2->fetch();
-          echo 'salt = '.$res_salt
-        $stmt2->free_result();
-      }
-
-		$uid = $_POST['username'];
-		$hash = $this->generateHash($_POST['password'],  $salt);
-
-		if($stmt->bind_param('ss', $uid, $hash)){
+	    	$sql = "SELECT salt, hash FROM users WHERE email = ?";
+	    	$stmt = $mysqli->prepare($sql);
+		
+		$hash_db = NULL;
+		$salt_db = NULL;
+		if($stmt->bind_param('s', $username)){
 			if($stmt->execute()){
-				$res_uid = NULL;
-				$res_pwd = NULL;
-				$stmt->bind_result($res_uid, $res_pwd);
-				while ($stmt->fetch()) {
-				    echo 'uid = ' . $res_uid . ', pwd = ' . $res_pwd;
+				$stmt->bind_result($salt_db, $hash_db);
+				if(!$stmt->fetch()){
+					return false;
 				}
 				$stmt->free_result();
 			}
-			// COMPARE res_pwd to $hash, if equal authenticated ...
-      if($res_pwd == $hash){
-        header("Location: http://localhost:80/meet2eat/login.php");
-      }
+			$db->closeConnection($mysqli);
 		}
-		$mysqli->close();
+		echo $salt_db;
+		$crypto = new Crypto();
+		$hash = $crypto->generateHash($password,  $salt_db);
+
+		echo '<br/>Generated hash: ' . $hash . '<br/>';
+		echo 'Hash From db ' . $hash_db;
+		//if($res_pwd == $hash){
+		//	header("Location: http://localhost:80/meet2eat/login.php");
+		//}
 	}
-	?>
-	</body>
+	Login();
+?>
+
+</body>
 </html>
