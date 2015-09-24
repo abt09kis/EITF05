@@ -1,6 +1,6 @@
 <?php
 	// Comment out error_reporting in prod. env.
-	error_reporting(E_ALL);
+	//error_reporting(E_ALL);
 	include_once "database.php";
 	include_once "crypto.php";
 	
@@ -27,7 +27,7 @@
 	$pwd = $_POST['password'];
 
 	if(isValidPassword($pwd) && isValidUsername($email)) {
-		echo "Password ok";
+		// Check if blocked ... (TO BE IMPLEMENTED) 
 		$db = new Database();
 		$mysqli = $db->openConnection();
 
@@ -36,8 +36,6 @@
 
 		$crypto = new Crypto();
 		$salt = $crypto->generateSalt(10);
-
-		echo 'salt: ' . $salt;
 		$hash = $crypto->generateHash($pwd, $salt);
 
 		echo 'email: ' . $email . ', salt: ' . $salt . ', hash ' . $hash;
@@ -48,7 +46,11 @@
 			}
 		}
 	}else {
-		echo "Password must be at least 10 characters long";
+		// TO BE IMPLEMENTED:
+		// Count number failed attempts ... 
+		// Block if more than 5 for 30 seconds ... 
+		header("Location: http://127.0.0.1/EITF05/eitf05/registerView.php?p_false=1");
+		die();
 	}
 	$mysqli->close();
 ?>
