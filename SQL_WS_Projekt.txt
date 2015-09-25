@@ -15,13 +15,6 @@ cost INT,
 PRIMARY KEY (itemId)
 );
 
-CREATE TABLE items
-(
-itemId int NOT NULL AUTO_INCREMENT,
-name VARCHAR(30)
-cost INT,
-PRIMARY KEY (itemId)
-); 
 
 CREATE TABLE purchases
 (
