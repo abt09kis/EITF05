@@ -55,9 +55,9 @@
 
 		echo '<br/>Generated hash: ' . $hash . '<br/>';
 		echo 'Hash From db ' . $hash_db;
-		//if($res_pwd == $hash){
-		//	header("Location: http://localhost:80/meet2eat/login.php");
-		//}
+		if($res_pwd == $hash){
+			header("Location: http://localhost:80/meet2eat/login.php");
+		}
 	}
 	Login();
 ?>
