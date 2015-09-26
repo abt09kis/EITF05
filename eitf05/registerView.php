@@ -6,7 +6,7 @@
 		<title> ProWebshop0.1</title>
 	</head>
 	<body>
-		<form id='login' action='register.php' method='post' accept-charset='UTF-8'>
+		<form id='login' action='register2.php' method='post' accept-charset='UTF-8'>
 			<fieldset >
 				<legend>Register</legend>
 				<input type='hidden' name='submitted' id='submitted' value='1'/>
@@ -18,24 +18,38 @@
 
 <?php
 	include_once "regcodes.php";
-		/**
-		 * Add token to protect from CSRF
-		 */
-		echo "<input type=\"hidden\" name=\"token\" value=\"" .  $_COOKIE['PHPSESSID'] . "\"/>"; 
-		
-		/**
-		 * Only displays if failed attempt ... 
-		 * Important that no logic is here ...  
-		 */
+	//Add token to protect from CSRF
+	echo "<input type=\"hidden\" name=\"token\" value=\"" .  $_COOKIE['PHPSESSID'] . "\"/>"; 
+	
+	$illegal_pass = $_SESSION[RegCodes::ILLEGAL_PASSWORD];
+	$illegal_user = $_SESSION[RegCodes::ILLEGAL_USERNAME];
+	$used_user = $_SESSION[RegCodes::USED_USERNAME];
+	
+	if($illegal_pass){
+		echo "<div style=\"font-size: 25px; color:#F00; margin:10px 5px 15px 20px;\">";
+		echo "Illegal Password";
+		echo "<div style=\"font-size: 18px; margin:10px 5px 15px 20px;\">";
+		echo "At least 10 characters long. 
+			<br/> It must consist only of [a-zA-Z0-9] 
+			and cotain at least ";
+		echo "<br/>one lower case letter <br/>one upper case letter<br/>one digit";
+		echo "</div></div>";
+	}
 
-		$legal_pass = $_SESSION[RegCodes::ILLEGAL_PASSWORD];
-		echo "p_false = " . $p_false;
-		if($p_false){
-			echo "<span style=\"color:#F00\"><br/><br/>Password must be at least 10 characters long. 
-				<br/> It must consist only of [a-zA-Z0-9] 
-				and contain at least <br/>one lower case 
-				letter <br/>one upper case letter<br/>one digit</span>";
-		}
+	if($illegal_user){
+		echo "<div style=\"font-size: 25px; color:#F00; margin:10px 5px 15px 20px;\">";
+		echo "<br/>Illegal Username";
+		echo "<div style=\"font-size: 18px; margin:10px 5px 15px 20px;\">";
+		echo "<br/> It must consist only of [a-zA-Z0-9] be at least one character long";
+		echo "</div></div>";
+	}
+
+	if($used_user){
+		echo "<div style=\"font-size: 25px; color:#F00; margin:10px 5px 15px 20px;\">";
+		echo "</br>Username already in use";
+		echo "</div>";
+	}
+
 ?>
 
 			</fieldset>

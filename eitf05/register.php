@@ -29,6 +29,18 @@
 			$combined = preg_match($regex, $uid);
 			return $combined;
 		}
+
+		function isUsernameFree($mysqli, $uid){
+			$sql = "SELECT COUNT(*) INTO count FROM users where email = ?";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->bind_param('s', $uid);
+			if($stmt->execute()){
+				if($stmt->fetch()) {
+					return count == 0;
+				}
+			}
+			return false;
+		}
 		
 		$email = $_POST['username'];
 		$pwd = $_POST['password'];
@@ -40,36 +52,38 @@
 			$mysqli = $db->openConnection();
 
 			// Check if username already exists ... 
+			//if(isUsernameFree($mysqli, $email)) {
+				$sql = "INSERT INTO users(email, hash, salt, nbrAttempts) VALUES(?, ?, ?, '0')";
+				$stmt = $mysqli->prepare($sql);
 
-			$sql = "INSERT INTO users(email, hash, salt, nbrAttempts) VALUES(?, ?, ?, '0')";
-			$stmt = $mysqli->prepare($sql);
+				$crypto = new Crypto();
+				$salt = $crypto->generateSalt(10);
+				$hash = $crypto->generateHash($pwd, $salt);
 
-			$crypto = new Crypto();
-			$salt = $crypto->generateSalt(10);
-			$hash = $crypto->generateHash($pwd, $salt);
-
-			if($stmt->bind_param('sss', $email, $hash, $salt)){
-				echo "Bound params success <br/>";
-				if($stmt->execute()){
-					$stmt->free_result();
+				if($stmt->bind_param('sss', $email, $hash, $salt)){
+					echo "Bound params success <br/>";
+					if($stmt->execute()){
+						$_SESSION[RegCodes::REGISTER_SUCCESS] = 1;
+						$stmt->free_result();
+					}
 				}
+
+			}else {
+				// TO BE IMPLEMENTED:
+				// Count number failed attempts ... 
+				// Block if more than 5 for 30 seconds ... 
+				$_SESSION[RegCodes::ILLEGAL_PASSWORD] = 1;
+				//if(!isset($_SESSION[''])) {
+				//	$_SESSION[''] = 0;
+				//}else {
+				//	$_SESSION['']++;
+				//}
+				header("Location: http://127.0.0.1/EITF05/eitf05/registerView.php");
+				die();
+
 			}
-
-		}else {
-			// TO BE IMPLEMENTED:
-			// Count number failed attempts ... 
-			// Block if more than 5 for 30 seconds ... 
-			$_SESSION[RegCodes::ILLEGAL_PASSWORD] = 1;
-			//if(!isset($_SESSION[''])) {
-			//	$_SESSION[''] = 0;
-			//}else {
-			//	$_SESSION['']++;
-			//}
-			header("Location: http://127.0.0.1/EITF05/eitf05/registerView.php");
-			die();
-
-		}
-		$mysqli->close();
+			$mysqli->close();
+		//}
 	}else {
 		header("Location: http://127.0.0.1/EITF05/eitf05/index.php");
 		die();

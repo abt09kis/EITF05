@@ -1,6 +1,10 @@
 <?php
 	abstract class RegCodes {
-		const ILLEGAL_PASSWORD = "IlPa";
+		const ILLEGAL_PASSWORD = "ILLEGAL_PASSWORD";
+		const ILLEGAL_USERNAME = "ILLEGAL_USERNAME";
+		const USED_USERNAME = "USED_USERNAME";
+		const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 	}
-	//echo "RegCodes::ILLEGAL_PASSWORD = " . RegCodes::ILLEGAL_PASSWORD;
+//echo "RegCodes::ILLEGAL_PASSWORD = " . Re
+//gCodes::ILLEGAL_PASSWORD;
 ?>
