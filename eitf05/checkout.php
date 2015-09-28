@@ -1,0 +1,17 @@
+<?php
+
+echo "<tr><th>Id</th><th>Name</th><th>cost</th></tr>";
+
+for ($x = 0; $x <= $_COOKIE['cookieNbr']; $x++) {
+
+
+
+    echo "<tr><th>" .  $_COOKIE['purchases[$x]'] . "</th></tr>";
+
+}
+
+echo "<form action='purchase.php' method='POST'>";
+echo "<input id='submit' type='submit' value='Buy' name= 'Buy'>";
+echo "</form>";
+
+?>

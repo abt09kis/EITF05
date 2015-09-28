@@ -21,6 +21,7 @@
     $stmt = $mysqli->prepare($sql);
 
     $search = strip_tags($_POST['searchField']);
+    //$search = $_POST['searchField'];
 
     if($stmt->bind_param('s', $search)){
       if($stmt->execute()){
@@ -38,19 +39,30 @@
         }else{
 
             print " 0 results for search: " . htmlspecialchars($search);
+            //print " 0 results for search: " . $search;
+
         }
 
       }
 
     }
     $_SESSION["itemId"] = $itemId;
+    $_SESSION["itemName"] = $itemName;
+
     $stmt->free_result();
     $mysqli->close();
 
 
     echo "</table>";
-    echo "<form action='buy.php' method='POST'>";
-    echo "<input id='submit' type='submit' value='buy' name= 'buy'>";
+    echo "<form action='addToCart.php' method='POST'>";
+    echo "<input id='submit' type='submit' value='Add to cart' name= 'Add to cart'>";
+    echo "</form>";
+    echo "<form action='checkout.php' method='POST'>";
+    echo "<input id='submit' type='submit' value='Checkout' name= 'Checkout'>";
+    echo "</form>";
+    echo "</form>";
+    echo "<form action='search.html' method='POST'>";
+    echo "<input id='submit' type='submit' value='back' name= 'back'>";
     echo "</form>";
     echo "</body>";
     echo "</html>";
