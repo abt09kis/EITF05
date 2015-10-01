@@ -41,29 +41,6 @@ Implementation:
 
 sew description for now.
 
- 
-
-
-
-Name: CSRF
-
-Description:
-
-Prevention:
-
-Implementation:
-
-
-
-Name: SQLInjection
-
-Description:
-
-Prevention:
-
-Implementation:
-
-
 
 Name: Remote File Inclusion
 
@@ -199,15 +176,6 @@ Extra:
 		php_value mysql.default_user "eitf05usr"
 		php_value mysql.default_password "eitf05pass"
 		php_value mysql.default_host "127.0.0.1"
-
-Name: Remote File Inclusion
-
-Description:
-
-Prevention:
-
-Implementation:
-
 
 
 --------------------------------------------------
