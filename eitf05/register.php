@@ -3,6 +3,7 @@
 ?>
 
 <?php
+	// Secure against XSS since only allow [a-zA-Z0-9]
 	// Comment out error_reporting in prod. env.
 	//error_reporting(E_ALL);
 	include_once "database.php";
@@ -53,8 +54,6 @@
 				}else {
 					$_SESSION[RegCodes::USED_USERNAME] = 1;
 				}
-
-				echo "Number users with uid = " . $uid . " = " . $count; 
 				return $count == 0;
 			}
 		}
@@ -76,8 +75,6 @@
 		$hash = $crypto->generateHash($pwd, $salt);
 
 		if($stmt->bind_param('sss', $email, $hash, $salt)){
-			echo "Bound params success <br/>";
-			echo "email = " . $email . "hash = " . $hash . " salt = " . $salt;
 			if($stmt->execute()){
 				echo "executed";
 				redirect("https://127.0.0.1/search.html");
@@ -87,7 +84,7 @@
 	}
 
 	$token = $_POST['token'];
-	if($token == $_COOKIE['PHPSESSID']) {
+	if($token == $_COOKIE['session_id']) {
 		$email = $_POST['username'];
 		$pwd = $_POST['password'];
 
@@ -98,7 +95,6 @@
 		$validUserName = isValidUsername($email);
 		$usernameAvailable = isUsernameFree($mysqli, $email);
 
-		echo "usernameAvailable = " . $usernameAvailable;
 		if($validPass && $validUserName && $usernameAvailable){
 			addUser($mysqli, $email, $pwd);
 		}else {

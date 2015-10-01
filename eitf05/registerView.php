@@ -19,7 +19,7 @@
 <?php
 	include_once "regcodes.php";
 	//Add token to protect from CSRF
-	echo "<input type=\"hidden\" name=\"token\" value=\"" .  $_COOKIE['PHPSESSID'] . "\"/>"; 
+	echo "<input type=\"hidden\" name=\"token\" value=\"" .  $_COOKIE['session_id'] . "\"/>"; 
 	
 	$illegal_pass = $_SESSION[RegCodes::ILLEGAL_PASSWORD];
 	$illegal_user = $_SESSION[RegCodes::ILLEGAL_USERNAME];

@@ -1,0 +1,12 @@
+Disable listening to port 80  /etc/apache2/ports.conf
+	Change /etc/apache2/conf-enabled/security.conf
+		ServerTokens Prod 
+		ServerSignature Off 
+	Set session.name to other than PHPSESSID (session.name = session_id)
+	session.cookie_httponly = 1
+	expose_php = Off 
+	log_errors = On
+	display_errors = Off
+	allow_url_fopen = Off 
+
+
