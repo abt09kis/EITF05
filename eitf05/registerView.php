@@ -6,7 +6,7 @@
 		<title> ProWebshop0.1</title>
 	</head>
 	<body>
-		<form id='login' action='register2.php' method='post' accept-charset='UTF-8'>
+		<form id='login' action='register.php' method='post' accept-charset='UTF-8'>
 			<fieldset >
 				<legend>Register</legend>
 				<input type='hidden' name='submitted' id='submitted' value='1'/>

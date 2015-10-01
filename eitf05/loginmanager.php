@@ -1,5 +1,6 @@
 <?php
 	class LoginManager {
+		$logout_persist = 0;
 		public function login() {
 			$_SESSION['isLoggedIn'] = 1;
 			$this->startLogoutTimer();
@@ -12,8 +13,8 @@
 
 		}
 
-		private function startLogoutTimer() {
-			echo "<script>setTimeout(function(){ alert(\"Hello\"); }, 3000);</script>";
+		private function startLogoutTimer($millis) {
+			echo "<script>setTimeout(function(){ alert(\"Hello\"); }, " . $millis . ");</script>";
 		}
 
 		private function listenLogout(){
