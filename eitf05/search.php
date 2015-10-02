@@ -1,13 +1,13 @@
 <?php
-include_once database.php;
+include_once "database.php";
 
   session_start();
 
   echo "<html>";
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
-
-  database->openConnection();
+  $database = new Database();
+  $database->openConnection();
 
     $sql = "SELECT * FROM items WHERE itemName = ?";
 
@@ -40,7 +40,7 @@ include_once database.php;
     $_SESSION['itemName'] = $itemName;
 
     $stmt->free_result();
-    database->closeConnection();
+    $database->closeConnection();
 
 
     echo "</table>";
