@@ -2,10 +2,10 @@
 include_once "database.php";
 
   session_start();
-
   echo "<html>";
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
+
   $database = new Database();
   $database->openConnection();
 
