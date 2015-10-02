@@ -39,11 +39,12 @@ ini_set('display_errors',1);
 	}
 ?>
 <?php
+
 		session_start();
 		logout();
 		$logout = strip_tags($_POST['Logout']);
 		// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
-		public function logout() {
+		function logout() {
 			if(!is_null($logout)){
 				$_SESSION = array();
 				//$_SESSION['isLoggedIn'] = 0;
@@ -53,7 +54,7 @@ ini_set('display_errors',1);
 					}
 			}
 		session_destroy();
-		header("Location: http://localhost:80/meet2eat/index.php")
+		header("Location: http://localhost:80/meet2eat/index.php");
 		}
 
 ?>
