@@ -38,7 +38,7 @@
 <?php
 		session_start();
 		logout();
-		$logout=strip_tags($_POST['Logout']);
+		$logout = strip_tags($_POST['Logout']);
 		// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
 		public function logout() {
 			if(!is_null($logout)){
