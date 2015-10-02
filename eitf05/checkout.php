@@ -1,14 +1,16 @@
 <?php
 session_id('test');
-
 session_start();
+ini_set('display_errors',1);
+
 
 echo "<tr><th> Id </th><th> Name </th><th> Cost </th></tr>";
 
-for ($x = 0; $x <= $_SESSION['cookieNbr']; $x++) {
+for ($x = 1; $x <= $_SESSION['cookieNbr']; $x++) {
 
-    $username = $_SESSION["username"];
-    $itemId = $_SESSION["purchasesId".$x]
+    //$username = $_SESSION["username"];
+    $username = "david@me.com";
+    $itemId = $_SESSION["purchasesId".$x];
 
     echo "<tr><th>" . $_SESSION["purchases".$x] . "</th></tr>";
 
@@ -29,7 +31,7 @@ $sql_pass = "root";
   if($stmt->bind_param('ss', $username, $itemId)){
     if($stmt->execute()){
 
-        echo "purchase successfull"
+        echo "purchase successfull";
     }
   }
 }

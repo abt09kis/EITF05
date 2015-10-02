@@ -1,4 +1,7 @@
 <?php
+
+ini_set('display_errors',1);
+
 	class LoginManager {
 		$logout_persist = 0;
 
