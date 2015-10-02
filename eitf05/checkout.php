@@ -1,12 +1,12 @@
 <?php
 
-echo "<tr><th>Id</th><th>Name</th><th>cost</th></tr>";
+session_start();
+
+echo "<tr><th> Id </th><th> Name </th><th> Cost </th></tr>";
 
 for ($x = 0; $x <= $_COOKIE['cookieNbr']; $x++) {
 
-
-
-    echo "<tr><th>" .  $_COOKIE['purchases[$x]'] . "</th></tr>";
+    echo "<tr><th>" .  $_COOKIE[purchases[$x]] . "</th></tr>";
 
 }
 
