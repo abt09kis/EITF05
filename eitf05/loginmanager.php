@@ -1,6 +1,7 @@
 <?php
 	class LoginManager {
 		$logout_persist = 0;
+
 		public function login() {
 			$_SESSION['isLoggedIn'] = 1;
 			$this->startLogoutTimer();
@@ -11,7 +12,7 @@
 		}
 
 		session_start();
-
+		logout();
 		// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
 		public function logout() {
 			if(!is_null($logout)){
