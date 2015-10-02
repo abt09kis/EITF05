@@ -91,8 +91,11 @@
 	function attemptLogin($username) {
 		$ip = clientIP();
 		echo '<br/>IP = ' . $ip . ' attempt for ' . $username;
+		$fp = fopen('login_data.txt', 'w+') or die("Unable to open file!");
+		fwrite($fp, "This is a test \n\nnewline?");
 		$attempt = array("ip" => $ip, "username" => $username);
-
+		fwrite($fp, var_dump($attempt));
+		fclose($fp);
 	}
 	Login();
 ?>
