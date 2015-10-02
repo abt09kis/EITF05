@@ -11,7 +11,7 @@
 		}
 
 		session_start();
-		
+
 		// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
 		public function logout() {
 			if(!is_null($logout)){
@@ -23,6 +23,7 @@
 				}
 			}
 			session_destroy();
+			header("Location: http://localhost:80/meet2eat/index.php")
 		}
 
 		private function startLogoutTimer($millis) {
