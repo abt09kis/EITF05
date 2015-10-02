@@ -1,16 +1,16 @@
 
 
   <?php
+  session_id('test');
+  session_start();
 
   echo "<html>";
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
 
-  session_start();
-    
-  $sql_user = "eitf05usr";
-  $sql_host = "127.0.0.1";
-  $sql_pass = "eitf05pass";
+  $sql_user = "root";
+  $sql_host = "localhost";
+  $sql_pass = "root";
 
 
     $mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "EITF05");
@@ -23,7 +23,6 @@
     $stmt = $mysqli->prepare($sql);
 
     $search = strip_tags($_POST['searchField']);
-    //$search = $_POST['searchField'];
 
     if($stmt->bind_param('s', $search)){
       if($stmt->execute()){
@@ -41,15 +40,14 @@
         }else{
 
             print " 0 results for search: " . htmlspecialchars($search);
-            //print " 0 results for search: " . $search;
 
         }
 
       }
 
     }
-    $_SESSION["itemId"] = $itemId;
-    $_SESSION["itemName"] = $itemName;
+    $_SESSION['itemId'] = $itemId;
+    $_SESSION['itemName'] = $itemName;
 
     $stmt->free_result();
     $mysqli->close();

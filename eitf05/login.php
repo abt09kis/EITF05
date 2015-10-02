@@ -29,14 +29,14 @@
 		return true;
 	}
 
-	
+
 	function DBLogin($username, $password){
 		$db = new Database();
-		$mysqli = $db->openConnection();	
+		$mysqli = $db->openConnection();
 
 	    	$sql = "SELECT salt, hash FROM users WHERE email = ?";
 	    	$stmt = $mysqli->prepare($sql);
-		
+
 		$hash_db = NULL;
 		$salt_db = NULL;
 		if($stmt->bind_param('s', $username)){
