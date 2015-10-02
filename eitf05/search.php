@@ -11,7 +11,7 @@
   $sql_pass = "root";
 
 
-    $mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "EITF05");
+    $mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "test");
     if ($mysqli->connect_errno) {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
