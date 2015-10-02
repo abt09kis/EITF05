@@ -22,6 +22,8 @@
 		$password = $_POST['password'];
 
 		echo 'Attempted login: ' . $username . $password;
+		echo "<br/>This (IP, UID) combo has attempted " . nbrAttempts($username) . " times before ...";
+
 		if(!DBLogin($username,$password)) {
 			return false;
 		}
@@ -80,22 +82,84 @@
 		echo '<br/>Generated hash: ' . $hash . '<br/>';
 		echo 'Hash From db ' . $hash_db;
 
-		if($res_pwd == $hash){
+		if($res_pwd == $hash && !isUserBlocked($username)){
 			$_SESSION['username'] = $username;
-			header("Location: http://localhost:80/meet2eat/login.php");
+			header("Location: https://localhost/search.html");
 		} else {
 			attemptLogin($username);
 		}
 	}
 
+	function isUserBlocked($username){
+		// Check nbrAttempts
+		// If too many attempts: Block, delete attempts for (IP, UID)-pair
+		// Check Blocked
+		$ip = clientIP();
+		$filename = "login_data.txt";
+		$f = fopen($filename, "r");
+		$contents = fread($f, filesize($filename));
+		$attempts = json_decode($contents, true);
+
+		if(is_null($attempts[$ip])){
+			return false;
+		}
+		else if(is_null($attempts[$ip][$username])){
+			return false;
+		}
+		return $attempts[$ip][$username]["blockedUntil"] > time();
+	}
+
+	function nbrAttempts($username){
+		$ip = clientIP();
+		$filename = "login_data.txt";
+		$f = fopen($filename, "r");
+		$contents = fread($f, filesize($filename));
+		$attempts = json_decode($contents, true);
+		return $attempts[$ip][$username]["nbrAttempts"];
+	}
+
+	/**
+	 * Block attempts
+	 * Need to validate uid !
+	 */
 	function attemptLogin($username) {
 		$ip = clientIP();
-		echo '<br/>IP = ' . $ip . ' attempt for ' . $username;
-		$fp = fopen('login_data.txt', 'w+') or die("Unable to open file!");
-		fwrite($fp, "This is a test \n\nnewline?");
-		$attempt = array("ip" => $ip, "username" => $username);
-		fwrite($fp, var_dump($attempt));
-		fclose($fp);
+		$filename = "login_data.txt";
+		$f = fopen($filename, "r");
+		$contents = fread($f, filesize($filename));
+
+		$attempts = json_decode($contents, true);
+		$attempts = createJson($attempts, $ip, $username);
+
+		$f = fopen($filename, "w");
+		fwrite($f, $attempts . "\n");
+		fclose($f);
+	}
+
+	function defaultArray() {
+		return array("nbrAttempts" => 0, "blockedUntil" => 0);
+	}
+
+	function createJson($attempts, $ip, $username){
+		if(is_null($attempts)){
+			$nbrAttempsBlocked = defaultArray();
+			$user_attempted = array($username => $nbrAttempsBlocked);
+			$attempts = array($ip => $user_attempted);
+		}else {
+			if(is_null($attempts[$ip])) {
+				$nbrAttempsBlocked = defaultArray();
+				$attempts[$ip] = array($username => $nbrAttempsBlocked);
+			}else if(is_null($attempts[$ip][$username])) {
+				$attempts[$ip][$username] = defaultArray();
+			}else if(!isUserBlocked($username)){
+				$attempts[$ip][$username]["nbrAttempts"] += 1;
+				if ($attempts[$ip][$username]["nbrAttempts"] >= 5){
+					$attempts[$ip][$username]["nbrAttempts"] = 0;
+					$attempts[$ip][$username]["blockedUntil"] = time() + 30*60; //Block for 30 minutes ...
+				}
+			}
+		}
+		return json_encode($attempts);
 	}
 	Login();
 ?>
