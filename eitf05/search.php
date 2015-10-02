@@ -1,20 +1,13 @@
 <?php
-  session_id('test');
+include_once database.php;
+
   session_start();
 
   echo "<html>";
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
 
-  $sql_user = "root";
-  $sql_host = "localhost";
-  $sql_pass = "root";
-
-
-    $mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "test");
-    if ($mysqli->connect_errno) {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+  database->openConnection();
 
     $sql = "SELECT * FROM items WHERE itemName = ?";
 
@@ -40,15 +33,14 @@
             print " 0 results for search: " . htmlspecialchars($search);
 
         }
-
       }
-
     }
+
     $_SESSION['itemId'] = $itemId;
     $_SESSION['itemName'] = $itemName;
 
     $stmt->free_result();
-    $mysqli->close();
+    database->closeConnection();
 
 
     echo "</table>";
