@@ -1,24 +1,23 @@
 
 <?php
-
+session_id('test');
 session_start();
 
-if (is_null($_COOKIE['cookieNbr'])){
-  print "null check ";
-  $cookieNbr = 1;
-  print $cookieNbr;
-  setcookie("cookieNbr", $cookieNbr);
-} else {
-  $cookieNbr = $_COOKIE['cookieNbr'];
+ini_set('display_errors',1);
 
-  print "cookieNbr";
-  print $cookieNbr;
+if (empty($_SESSION['cookieNbr'])){
+
+  $cookieNbr = 1;
+  $_SESSION["cookieNbr"] =  $cookieNbr;
+
+} else {
+
+  $cookieNbr = $_SESSION['cookieNbr'];
 }
 
-print $_SESSION["itemName"];
-
-setcookie(purchases[$cookieNbr + 1], $_SESSION["itemName"]);
-setcookie("cookieNbr", $cookieNbr + 1);
+$cookieNbr = $cookieNbr + 1;
+$_SESSION["purchases".$cookieNbr] =  $_SESSION["itemName"];
+$_SESSION["cookieNbr"] = $cookieNbr;
 
 echo $_SESSION["itemName"]. " has been added to cart";
 echo "</form>";

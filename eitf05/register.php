@@ -90,7 +90,7 @@
 
 		$db = new Database();
 		$mysqli = $db->openConnection();
-		
+
 		$validPass = isValidPassword($pwd);
 		$validUserName = isValidUsername($email);
 		$usernameAvailable = isUsernameFree($mysqli, $email);
