@@ -7,11 +7,12 @@
 	echo "<table style='width:100%' id = 'itemTable'>";
 
 	$database = new Database();
-	$database->openConnection();
+	$mysqli = $database->openConnection();
 	
 	$sql = "SELECT * FROM items WHERE itemName = ?";
 	$stmt = $mysqli->prepare($sql);
 	$search = strip_tags($_POST['searchField']);
+
 	if($stmt->bind_param('s', $search)){
 		if($stmt->execute()){
 			$itemId = NULL;
@@ -30,7 +31,7 @@
 	$_SESSION['itemId'] = $itemId;
 	$_SESSION['itemName'] = $itemName;
 	$stmt->free_result();
-	$database->closeConnection();
+	$database->closeConnection($mysqli);
 
 	echo "</table>";
 	echo "<form action='addToCart.php' method='POST'>";

@@ -100,7 +100,7 @@
 		}else {
 			redirect("https://127.0.0.1/registerView.php");
 		}
-		$mysqli->close();
+		$db->closeConnection($mysqli);
 	}else {
 		redirect("https://127.0.0.1/index.php");
 	}

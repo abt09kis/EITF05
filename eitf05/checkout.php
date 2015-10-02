@@ -27,7 +27,7 @@ for ($x = 2; $x <= $_SESSION['cookieNbr']; $x++) {
     }
   }
   $stmt->free_result();
-  $database->closeConnection();
+  $database->closeConnection($mysqli);
 
 }
 echo "</table>";
