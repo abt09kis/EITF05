@@ -6,6 +6,8 @@
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
 
+  session_start();
+    
   $sql_user = "root";
   $sql_host = "localhost";
   $sql_pass = "root";
