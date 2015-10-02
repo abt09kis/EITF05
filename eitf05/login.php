@@ -25,7 +25,6 @@
 		if(!DBLogin($username,$password)) {
 			return false;
 		}
-		session_start();
 		return true;
 	}
 
@@ -43,26 +42,14 @@
 			if($stmt->execute()){
 				$stmt->bind_result($salt_db, $hash_db);
 				if(!$stmt->fetch()){
+					attemptLogin($username);
 					return false;
+				} else {
+					validUsername($salt_db, $hash_db, $password, $username);
 				}
 				$stmt->free_result();
 			}
 			$db->closeConnection($mysqli);
-		}
-		echo $salt_db;
-		$crypto = new Crypto();
-		$hash = $crypto->generateHash($password,  $salt_db);
-
-		echo '<br/>Generated hash: ' . $hash . '<br/>';
-		echo 'Hash From db ' . $hash_db;
-
-		$ip = clientIP();
-
-		echo '<br/>IP = ' . $ip . ' attempt for ' . $username;
-
-
-		if($res_pwd == $hash){
-			header("Location: http://localhost:80/meet2eat/login.php");
 		}
 	}
 
@@ -85,6 +72,28 @@
 	    return $ipaddress;
 	}
 
+	function validUsername($salt_db, $hash_db, $password, $username){
+		echo $salt_db;
+		$crypto = new Crypto();
+		$hash = $crypto->generateHash($password,  $salt_db);
+
+		echo '<br/>Generated hash: ' . $hash . '<br/>';
+		echo 'Hash From db ' . $hash_db;
+
+		if($res_pwd == $hash){
+			$_SESSION['username'] = $username;
+			header("Location: http://localhost:80/meet2eat/login.php");
+		} else {
+			attemptLogin($username);
+		}
+	}
+
+	function attemptLogin($username) {
+		$ip = clientIP();
+		echo '<br/>IP = ' . $ip . ' attempt for ' . $username;
+		$attempt = array("ip" => $ip, "username" => $username);
+
+	}
 	Login();
 ?>
 

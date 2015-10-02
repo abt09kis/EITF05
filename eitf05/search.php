@@ -1,12 +1,12 @@
-
+<?php
+  session_start();
+?>
 
   <?php
-
   echo "<html>";
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
 
-  session_start();
     
   $sql_user = "eitf05usr";
   $sql_host = "127.0.0.1";
