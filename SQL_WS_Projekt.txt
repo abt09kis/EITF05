@@ -1,3 +1,9 @@
+SET foreign_key_checks = 0;
+DROP TABLE users;
+DROP TABLE items;
+DROP TABLE purchases;
+SET foreign_key_checks = 1;
+
 CREATE TABLE users
 (
 email VARCHAR(30),

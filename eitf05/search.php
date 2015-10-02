@@ -8,12 +8,12 @@
 
   session_start();
     
-  $sql_user = "root";
-  $sql_host = "localhost";
-  $sql_pass = "root";
+  $sql_user = "eitf05usr";
+  $sql_host = "127.0.0.1";
+  $sql_pass = "eitf05pass";
 
 
-    $mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "test");
+    $mysqli = new mysqli($sql_host, $sql_user, $sql_pass, "EITF05");
     if ($mysqli->connect_errno) {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
