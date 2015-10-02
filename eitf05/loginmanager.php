@@ -9,6 +9,9 @@
 			$this->listenWindowClose();
 			$logout= strip_tags($_POST['Logout']);
 		}
+
+		session_start();
+		
 		// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
 		public function logout() {
 			if(!is_null($logout)){
