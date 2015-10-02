@@ -1,11 +1,19 @@
 <?php
+<<<<<<< Updated upstream
 include_once "database.php";
 
+=======
+ini_set('display_errors', 'On');
+include_once "database.php";
+>>>>>>> Stashed changes
   session_start();
-
   echo "<html>";
   echo "<body>";
   echo "<table style='width:100%' id = 'itemTable'>";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   $database = new Database();
   $database->openConnection();
 
@@ -40,7 +48,11 @@ include_once "database.php";
     $_SESSION['itemName'] = $itemName;
 
     $stmt->free_result();
+<<<<<<< Updated upstream
     $database->closeConnection();
+=======
+    $database->openConnection();
+>>>>>>> Stashed changes
 
 
     echo "</table>";
