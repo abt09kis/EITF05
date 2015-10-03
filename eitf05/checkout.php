@@ -7,7 +7,6 @@ session_start();
 
 echo "<table>";
 for ($x = 2; $x <= $_SESSION['cookieNbr']; $x++) {
-
     $username = $_SESSION["username"];
     $itemId = $_SESSION["purchasesId".$x];
     $itemName = $_SESSION["purchases".$x];

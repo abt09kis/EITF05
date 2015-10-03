@@ -10,28 +10,48 @@
 <?php
 	include_once "database.php";
 	include_once "crypto.php";
+	include_once "inputchecker.php";
 
-	function Login(){
-		if(empty($_POST['username'])) {
-			return false;
-		}
-		if(empty($_POST['password'])) {
-			return false;
-		}
-		$username = $_POST['username'];
-		$password = $_POST['password'];
+	function redirect($url){
+		$h = "Location: " . $url;
+		header($h);
+		die();
+	}
 
-		echo 'Attempted login: ' . $username . $password;
-		echo "<br/>This (IP, UID) combo has attempted " . nbrAttempts($username) . " times before ...";
+	function login(){
+		// Check Token so Login comming from https://127.0.0.1/index.php 
+		$token = $_POST['token'];
+		if($token == $_COOKIE['session_id']) {
+			if(empty($_POST['username'])) {
+				return false;
+			}
+			if(empty($_POST['password'])) {
+				return false;
+			}
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$incheck = new InputChecker();
+			
+			// Validate input ... 
+			$validPass = $incheck->isValidPassword($password);
+			$validUserName = $incheck->isValidUsername($username);
 
-		if(!DBLogin($username,$password)) {
-			return false;
+			echo 'Attempted login: ' . $username . $password;
+
+			if(!$validPass || !$validUserName){
+				redirect("https://127.0.0.1/");
+			}	
+			if(!dbLogin($username,$password)) {
+				redirect("https://127.0.0.1/");
+			}
+			redirect("https://127.0.0.1/search.html");
+		}else {
+			redirect("https://127.0.0.1/");
 		}
-		return true;
 	}
 
 
-	function DBLogin($username, $password){
+	function dbLogin($username, $password){
 		$db = new Database();
 		$mysqli = $db->openConnection();
 
@@ -44,15 +64,15 @@
 			if($stmt->execute()){
 				$stmt->bind_result($salt_db, $hash_db);
 				if(!$stmt->fetch()){
-					attemptLogin($username);
 					return false;
 				} else {
-					validUsername($salt_db, $hash_db, $password, $username);
+					return existingUsername($salt_db, $hash_db, $password, $username);
 				}
 				$stmt->free_result();
 			}
 			$db->closeConnection($mysqli);
 		}
+		return false;
 	}
 
 	function clientIP() {
@@ -74,7 +94,7 @@
 	    return $ipaddress;
 	}
 
-	function validUsername($salt_db, $hash_db, $password, $username){
+	function existingUsername($salt_db, $hash_db, $password, $username){
 		echo $salt_db;
 		$crypto = new Crypto();
 		$hash = $crypto->generateHash($password,  $salt_db);
@@ -82,18 +102,16 @@
 		echo '<br/>Generated hash: ' . $hash . '<br/>';
 		echo 'Hash From db ' . $hash_db;
 
-		if($res_pwd == $hash && !isUserBlocked($username)){
+		if($hash_db == $hash && !isUserBlocked($username)){
 			$_SESSION['username'] = $username;
-			header("Location: https://localhost/search.html");
+			return true;
 		} else {
 			attemptLogin($username);
+			return false;
 		}
 	}
 
 	function isUserBlocked($username){
-		// Check nbrAttempts
-		// If too many attempts: Block, delete attempts for (IP, UID)-pair
-		// Check Blocked
 		$ip = clientIP();
 		$filename = "login_data.txt";
 		$f = fopen($filename, "r");
@@ -161,7 +179,7 @@
 		}
 		return json_encode($attempts);
 	}
-	Login();
+	login();
 ?>
 
 </body>
