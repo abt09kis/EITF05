@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	include_once "testlogin.php";
+	redirectIfLoggedIn("https://127.0.0.1/searchView.php");
 ?>
 
 <html>

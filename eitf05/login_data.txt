@@ -1,1 +1,0 @@
-{"127.0.0.1":{"u1":{"nbrAttempts":0,"blockedUntil":1443805815},"u2":{"nbrAttempts":0,"blockedUntil":1443806150},"u3":{"nbrAttempts":0,"blockedUntil":1443806193},"u4":{"nbrAttempts":1,"blockedUntil":1443806229},"u5":{"nbrAttempts":1,"blockedUntil":1443806596},"u6":{"nbrAttempts":0,"blockedUntil":1443806637}}}

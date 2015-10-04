@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	include_once "testlogin.php";
+	redirectIfLoggedIn("https://127.0.0.1/searchView.php");
+
 ?>
 
 <?php
@@ -27,6 +30,7 @@
 				}
 				return $count == 0;
 			}
+			$stmt->free_result();
 		}
 		$_SESSION[RegCodes::USED_USERNAME] = 2;
 		return false;
@@ -48,7 +52,9 @@
 		if($stmt->bind_param('sss', $email, $hash, $salt)){
 			if($stmt->execute()){
 				echo "executed";
-				redirect("https://127.0.0.1/search.html");
+				$_SESSION['isLoggedIn'] = 1;
+				$_SESSION['username'] = $email;
+				redirect("https://127.0.0.1/searchView.php");
 				$stmt->free_result();
 			}
 		}

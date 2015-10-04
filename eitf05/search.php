@@ -1,6 +1,8 @@
 <?php
 	session_start();
+	include_once "testlogin.php";
 	include_once "database.php";
+	redirectIfNotLoggedIn("https://127.0.0.1/");
 	
 	echo "<html>";
 	echo "<body>";

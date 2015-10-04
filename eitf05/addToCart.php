@@ -1,30 +1,22 @@
 
 <?php
-session_start();
+	session_start();
+	ini_set('display_errors',1);
+	if (empty($_SESSION['cookieNbr'])){
+		$cookieNbr = 1;
+		$_SESSION["cookieNbr"] =  $cookieNbr;
+	} else {
+		$cookieNbr = $_SESSION['cookieNbr'];
+	}
 
-ini_set('display_errors',1);
+	$cookieNbr = $cookieNbr + 1;
+	$_SESSION["purchases".$cookieNbr] =  $_SESSION["itemName"];
+	$_SESSION["purchasesId".$cookieNbr] =  $_SESSION["itemId"];
+	$_SESSION["cookieNbr"] = $cookieNbr;
 
-if (empty($_SESSION['cookieNbr'])){
-
-  $cookieNbr = 1;
-  $_SESSION["cookieNbr"] =  $cookieNbr;
-
-} else {
-
-  $cookieNbr = $_SESSION['cookieNbr'];
-}
-
-$cookieNbr = $cookieNbr + 1;
-
-$_SESSION["purchases".$cookieNbr] =  $_SESSION["itemName"];
-$_SESSION["purchasesId".$cookieNbr] =  $_SESSION["itemId"];
-
-$_SESSION["cookieNbr"] = $cookieNbr;
-
-echo "Congratulation! " . $_SESSION["itemName"]. " has been added to cart";
-echo "</form>";
-echo "<form action='search.html' method='POST'>";
-echo "<input id='submit' type='submit' value='back' name= 'back'>";
-echo "</form>";
-
+	echo "Congratulation! " . $_SESSION["itemName"]. " has been added to cart";
+	echo "</form>";
+	echo "<form action='searchView.php' method='POST'>";
+	echo "<input id='submit' type='submit' value='back' name= 'back'>";
+	echo "</form>";
 ?>

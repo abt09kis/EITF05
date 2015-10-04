@@ -44,7 +44,8 @@
 			if(!dbLogin($username,$password)) {
 				redirect("https://127.0.0.1/");
 			}
-			redirect("https://127.0.0.1/search.html");
+			$_SESSION['isLoggedIn'] = 1;
+			redirect("https://127.0.0.1/searchView.php");
 		}else {
 			redirect("https://127.0.0.1/");
 		}
