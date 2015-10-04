@@ -23,7 +23,7 @@
 				<input type='submit' name='Submit' value='Submit' />
 				<input type='submit' name='Register' formaction='registerView.php' value='Not a member?, register here.' />
 <?php
-	echo "<input type=\"hidden\" name=\"token\" value=\"" . $_COOKIE['session_id'] . "\"/>";
+	echo "<input type=\"hidden\" name=\"token\" value=\"" . session_id() . "\"/>";
 ?>
 			</fieldset>
 		</form>

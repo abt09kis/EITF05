@@ -2,7 +2,6 @@
 	session_start();
 	include_once "testlogin.php";
 	redirectIfLoggedIn("https://127.0.0.1/searchView.php");
-
 ?>
 
 <?php
@@ -36,12 +35,6 @@
 		return false;
 	}
 
-	function redirect($url){
-		$h = "Location: " . $url;
-		header($h);
-		die();
-	}
-
 	function addUser($mysqli, $email, $pwd) {
 		$sql = "INSERT INTO users(email, hash, salt, nbrAttempts) VALUES(?, ?, ?, '0')";
 		$stmt = $mysqli->prepare($sql);
@@ -59,9 +52,8 @@
 			}
 		}
 	}
-
 	$token = $_POST['token'];
-	if($token == $_COOKIE['session_id']) {
+	if($token == session_id()) {
 		$email = $_POST['username'];
 		$pwd = $_POST['password'];
 

@@ -14,14 +14,22 @@
 		<form action="search.php" method="POST">
 			<input id="search" name="searchField" type="text" placeholder="Type here">
 			<input id="submit" type="submit" value="Search">
+<?php
+	echo "<input type=\"hidden\" name=\"token\" value=\"" . session_id()  . "\"/>";
+?>
+
 		</form>
 
 <div/>
 		<form action="logout.php" method="POST">
 			<input type='submit' name='Logout'  value='Logout' />
 		</form>
-		<form action='checkout.php' method='POST'>
+		<form action='checkoutView.php' method='POST'>
 			<input id='submit' type='submit' value='Checkout' name= 'Checkout'>
+
+<?php
+	echo "<input type=\"hidden\" name=\"token\" value=\"" . session_id() . "\"/>";
+?>
 		</form>
 	</body>
 </html>
