@@ -15,7 +15,7 @@
 	
 	$sql = "SELECT * FROM items WHERE itemName = ?";
 	$stmt = $mysqli->prepare($sql);
-	$search = strip_tags($_POST['searchField']);
+	$search = $_POST['searchField'];
 
 	echo "<div>";
 	echo "<table style='width:20%' id = 'itemTable'>";
@@ -30,7 +30,7 @@
 			if($stmt->fetch()) {
 				    print "</th><th>" . $itemName . "</th><th>" . $cost . "</th></tr>";
 			}else{
-			    print " 0 results for search: " . htmlspecialchars($search);
+			    print " 0 results for search: " . $search;
 			}
 			$stmt->free_result();
 		}
@@ -47,11 +47,11 @@
 
 		echo "<form action='addToCart.php' method='POST'>";
 		echo "<input id='submit' type='submit' value='Add to cart' name= 'Add to cart'>";
-		echo "<input type=\"hidden\" name=\"token\" value=\"" .  session_id() . "\"/>";
+		//echo "<input type=\"hidden\" name=\"token\" value=\"" .  session_id() . "\"/>";
 		echo "</form>";
 		echo "<form action='checkoutView.php' method='POST'>";
 		echo "<input id='submit' type='submit' value='Checkout' name= 'Checkout'>";
-		echo "<input type=\"hidden\" name=\"token\" value=\"" .  session_id() . "\"/>";
+		//echo "<input type=\"hidden\" name=\"token\" value=\"" .  session_id() . "\"/>";
 		echo "</form>";
 		echo "</form>";
 	}else{

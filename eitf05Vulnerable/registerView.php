@@ -6,17 +6,17 @@
 
 <html>
 	<head>
-		<title> ProWebshop0.1</title>
+		<title> ProWebshop0.1 Vulnerable</title>
 	</head>
 	<body>
 		<form id='login' action='register.php' method='post' accept-charset='UTF-8'>
 			<fieldset >
-				<legend>Register</legend>
+				<legend>Register Vulnerable</legend>
 				<input type='hidden' name='submitted' id='submitted' value='1'/>
 				<label for='username' >UserName*:</label>
-				<input type='text' name='username' id='username'  maxlength="50" />
+				<input type='text' name='username' id='username' maxlength="500"/>
 				<label for='password' >Password*:</label>
-				<input type='password' name='password' id='password' maxlength="50" />
+				<input type='password' name='password' id='password' maxlength="500" />
 				<input type='submit' name='Submit' value='Submit' />
 
 
