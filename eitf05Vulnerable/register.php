@@ -11,7 +11,6 @@
 	include_once "database.php";
 	include_once "crypto.php";
 	include_once "regcodes.php";
-	include_once "inputchecker.php";
 
 
 	function isUsernameFree($mysqli, $uid){
@@ -36,22 +35,22 @@
 	}
 
 	function addUser($mysqli, $email, $pwd) {
-		$sql = "INSERT INTO users(email, hash, salt, nbrAttempts) VALUES(?, ?, ?, '0')";
-		$stmt = $mysqli->prepare($sql);
+
+
+		echo $sql;	
 		$crypto = new Crypto();
 		$salt = $crypto->generateSalt(10);
 		$hash = $crypto->generateHash($pwd, $salt);
+		$sql = "INSERT INTO users(email, hash, salt, nbrAttempts) 
+			VALUES('" . $email . "', '" . $hash ."', '". $salt ."', '0')";
+		$reassure = "SELECT COUNT(*) FROM users WHERE email = ";
+		$mysqli->multi_query($sql);
 
-		if($stmt->bind_param('sss', $email, $hash, $salt)){
-			if($stmt->execute()){
-				echo "executed";
-				$_SESSION['isLoggedIn'] = 1;
-				$_SESSION['username'] = $email;
-				redirect("https://127.0.0.1/searchView.php");
-				$stmt->free_result();
-			}
-		}
+		$_SESSION['isLoggedIn'] = 1;
+		$_SESSION['username'] = $email;
+		//redirect("https://127.0.0.1/searchView.php");
 	}
+
 	$token = $_POST['token'];
 	if($token == session_id()) {
 		$email = $_POST['username'];
@@ -60,12 +59,9 @@
 		$db = new Database();
 		$mysqli = $db->openConnection();
 
-		$incheck = new InputChecker();
-		$validPass = $incheck->isValidPassword($pwd);
-		$validUserName = $incheck->isValidUsername($email);
 		$usernameAvailable = isUsernameFree($mysqli, $email);
 
-		if($validPass && $validUserName && $usernameAvailable){
+		if($usernameAvailable){
 			addUser($mysqli, $email, $pwd);
 		}else {
 			redirect("https://127.0.0.1/registerView.php");
