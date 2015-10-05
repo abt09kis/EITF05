@@ -8,7 +8,7 @@
 
 <?php
 	include_once "../nonPublic/csrftoken.php";
-	//Visa valda produkter. 
+	//Visa valda produkter.
 	echo "If confirmed, the following items will be purchased:<br/>";
 	echo "<table>";
 	for ($x = 2; $x <= $_SESSION['purchaseNbr']; $x++) {

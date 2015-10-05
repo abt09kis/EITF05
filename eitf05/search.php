@@ -10,7 +10,7 @@
 
 	echo "<h1 style=\"text-align: right; color: red;\">Username = " . htmlspecialchars($_SESSION['username']) . "<h1/>";
 
-	//Sök i databasen efter produkten, visa resultat. 
+	//Sök i databasen efter produkten, visa resultat.
 	$database = new Database();
 	$mysqli = $database->openConnection();
 
@@ -29,9 +29,9 @@
 
 			print "<tr><th>Name</th><th>cost</th></tr>";
 			if($stmt->fetch()) {
-				    print "</th><th>" . $itemName . "</th><th>" . $cost . "</th></tr>";
+				    echo "</th><th>" . htmlspecialchars($itemName) . "</th><th>" . htmlspecialchars($cost) . "</th></tr>";
 			}else{
-			    print " 0 results for search: " . htmlspecialchars($search);
+			    echo " 0 results for search: " . htmlspecialchars($search);
 			}
 			$stmt->free_result();
 		}
