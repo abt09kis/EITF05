@@ -6,7 +6,7 @@
 		die();
 	}
 	$logout = $_POST['Logout'];
-	// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
+	//will log the user out, clear all session variables and unset coookies in addition to terminating the session.
 	if(!is_null($logout)){
 		$_SESSION = array();
 		if(ini_get('session.use_cookies')){
