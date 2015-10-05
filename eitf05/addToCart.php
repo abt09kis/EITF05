@@ -15,17 +15,18 @@
 	if(empty($itemName)){
 		redirect("https://127.0.0.1/searchView.php");
 	}
-	if (empty($_SESSION['cookieNbr'])){
-		$cookieNbr = 1;
-		$_SESSION["cookieNbr"] =  $cookieNbr;
+	//Lägg till sessionsvariebler för köp som beror på sessionNbr, antalet tidigare köp.
+	if (empty($_SESSION['purchaseNbr'])){
+		$purchaseNbr = 1;
+		$_SESSION["purchaseNbr"] =  $purchaseNbr;
 	} else {
-		$cookieNbr = $_SESSION['cookieNbr'];
+		$purchaseNbr = $_SESSION['purchaseNbr'];
 	}
 
-	$cookieNbr = $cookieNbr + 1;
-	$_SESSION["purchases".$cookieNbr] =  $itemName;
-	$_SESSION["purchasesId".$cookieNbr] =  $itemId;
-	$_SESSION["cookieNbr"] = $cookieNbr;
+	$cookieNbr = $purchaseNbr + 1;
+	$_SESSION["purchases".$purchaseNbr] =  $itemName;
+	$_SESSION["purchasesId".$purchaseNbr] =  $itemId;
+	$_SESSION["purchaseNbr"] = $purchaseNbr;
 
 	echo htmlspecialchars($itemName). " has been added to cart";
 	echo "</form>";

@@ -10,7 +10,7 @@
 		header($h);
 		die();
 	}
-	
+
 	function logout() {
 		if(!is_null($logout)){
 			$_SESSION = array();

@@ -10,7 +10,7 @@
 
 	echo "<h1 style=\"text-align: right; color: red;\">Username = " . htmlspecialchars($_SESSION['username']) . "<h1/>";
 
-
+	//Sök i databasen efter produkten, visa resultat. 
 	$database = new Database();
 	$mysqli = $database->openConnection();
 

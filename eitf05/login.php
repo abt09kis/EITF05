@@ -19,7 +19,7 @@
 	}
 
 	function login(){
-		// Check Token so Login comming from https://127.0.0.1/index.php 
+		// Check Token so Login comming from https://127.0.0.1/index.php
 		$token = $_POST['token'];
 		if($token == $_COOKIE['session_id']) {
 			if(empty($_POST['username'])) {
@@ -31,8 +31,8 @@
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 			$incheck = new InputChecker();
-			
-			// Validate input ... 
+
+			// Validate input ...
 			$validPass = $incheck->isValidPassword($password);
 			$validUserName = $incheck->isValidUsername($username);
 
@@ -40,7 +40,7 @@
 
 			if(!$validPass || !$validUserName){
 				redirect("https://127.0.0.1/");
-			}	
+			}
 			if(!dbLogin($username,$password)) {
 				redirect("https://127.0.0.1/");
 			}
