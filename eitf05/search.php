@@ -4,16 +4,16 @@
 	include_once "../nonPublic/csrftoken.php";
 	include_once "database.php";
 	redirectIfNotLoggedIn("https://127.0.0.1/");
-	
+
 	echo "<html>";
 	echo "<body>";
 
-	echo "<h1 style=\"text-align: right; color: red;\">Username = " . $_SESSION['username'] . "<h1/>";
+	echo "<h1 style=\"text-align: right; color: red;\">Username = " . htmlspecialchars($_SESSION['username']) . "<h1/>";
 
-	
+
 	$database = new Database();
 	$mysqli = $database->openConnection();
-	
+
 	$sql = "SELECT * FROM items WHERE itemName = ?";
 	$stmt = $mysqli->prepare($sql);
 	$search = strip_tags($_POST['searchField']);

@@ -9,7 +9,7 @@
 
 <div>
 <?php
-	echo "<h1 style=\"text-align: right; color: red;\">Username = " . $_SESSION['username'] . "<h1/>";
+	echo "<h1 style=\"text-align: right; color: red;\">Username = " . htmlspecialchars($_SESSION['username']) . "<h1/>";
 ?>
 		<form action="search.php" method="POST">
 			<input id="search" name="searchField" type="text" placeholder="Type here">
