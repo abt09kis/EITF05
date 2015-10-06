@@ -7,7 +7,7 @@
 		<title> Safe site</title>
 	</head>
 	<body>
-		<form id='login' action='file:///C:/xampp/htdocs/eitf05/eitf05/csrf.php' method='post' accept-charset='UTF-8'>
+		<form id='login' action='https://localhost:8000/logout.php' method='post' accept-charset='UTF-8'>
 			<fieldset >
 				<legend>Login</legend>
 				<input type='hidden' name='submitted' id='submitted' value='1'/>
@@ -19,10 +19,8 @@
 				<input type='password' name='password' id='password' maxlength="50" />
 
 				<input type='submit' name='Submit' value='Submit' />
-				<input type='submit' name='Register' formaction='file:///C:/xampp/htdocs/eitf05/eitf05/csrf.php' value='Not a member?, register here.' />
-<?php
-	echo "<input type=\"hidden\" name=\"token\" value=\"f7i4nboc88t89r5nssk2ob49g4\"/>";
-?>
+				<input type='submit' name='Register' formaction='https://localhost:8000/logout.php' value='Not a member?, register here.' />
+
 			</fieldset>
 		</form>
 	</body>
