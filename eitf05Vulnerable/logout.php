@@ -12,5 +12,6 @@
 		}
 
 	session_destroy();
-	header("https://127.0.0.1/");
+	header("Location: https://127.0.0.1/");
+	die();
 ?>

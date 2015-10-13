@@ -8,31 +8,32 @@
 <?php
 	include_once "../nonPublic/csrftoken.php";
 	include_once "database.php";
+	if(checkCSRF()){
+		$database = new Database();
+		echo "If confirmed, the following items will be purchased:<br/>";
+		echo "<table>";
 
-	$database = new Database();
-	echo "If confirmed, the following items will be purchased:<br/>";
-	echo "<table>";
+		for ($x = 2; $x <= $_SESSION['purchaseNbr']; $x++) {
+			$username = $_SESSION["username"];
+			$itemId = $_SESSION["purchasesId".$x];
+			$itemName = $_SESSION["purchases".$x];
+			echo "<tr><th> " . $itemName . " </th>";
 
-	for ($x = 2; $x <= $_SESSION['purchaseNbr']; $x++) {
-		$username = $_SESSION["username"];
-		$itemId = $_SESSION["purchasesId".$x];
-		$itemName = $_SESSION["purchases".$x];
-		echo "<tr><th> " . $itemName . " </th>";
+			$mysqli = $database->openConnection();
+			$sql = "INSERT INTO purchases (email,itemId,purchDate) VALUES ( ? , ?, NOW() )";
+			$stmt = $mysqli->prepare($sql);
 
-		$mysqli = $database->openConnection();
-		$sql = "INSERT INTO purchases (email,itemId,purchDate) VALUES ( ? , ?, NOW() )";
-		$stmt = $mysqli->prepare($sql);
-
-		if($stmt->bind_param('ss', $username, $itemId)){
-			if($stmt->execute()){
-				echo "<th> purchase successful </th></tr>";
+			if($stmt->bind_param('ss', $username, $itemId)){
+				if($stmt->execute()){
+					echo "<th> purchase successful </th></tr>";
+				}
 			}
+			$stmt->free_result();
+			$database->closeConnection($mysqli);
 		}
-		$stmt->free_result();
-		$database->closeConnection($mysqli);
+		echo "</table>";
+		echo "<br/>";
 	}
-	echo "</table>";
-	echo "<br/>";
 ?>
 
 

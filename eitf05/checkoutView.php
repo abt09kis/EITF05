@@ -11,15 +11,14 @@
 	include_once "../nonPublic/csrftoken.php";
 
 	if(!checkCSRF()){
-		if(!function_exists("redirect")){
-		function redirect($url){
-			$h = "Location: " . $url;
-			header($h);
-			die();
+			if(!function_exists("redirect")){
+			function redirect($url){
+				$h = "Location: " . $url;
+				header($h);
+				die();
+			}
+			redirect("https://127.0.0.1/searchView.php");
 		}
-		redirect("https://127.0.0.1/search.php");
-	}
-
 	}
 	//Visa valda produkter.
 	echo "If confirmed, the following items will be purchased:<br/>";
