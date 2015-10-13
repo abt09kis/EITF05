@@ -23,6 +23,9 @@
 <div/>
 		<form action="logout.php" method="POST">
 			<input type='submit' name='Logout'  value='Logout' />
+<?php
+	echo "<input type=\"hidden\" name=\"token\" value=\"" . session_id()  . "\"/>";
+?>
 		</form>
 		<form action='checkoutView.php' method='POST'>
 			<input id='submit' type='submit' value='Checkout' name= 'Checkout'>

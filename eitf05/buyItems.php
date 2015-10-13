@@ -13,7 +13,7 @@
 	echo "If confirmed, the following items will be purchased:<br/>";
 	echo "<table>";
 
-	for ($x = 2; $x <= $_SESSION['cookieNbr']; $x++) {
+	for ($x = 2; $x <= $_SESSION['purchaseNbr']; $x++) {
 		$username = $_SESSION["username"];
 		$itemId = $_SESSION["purchasesId".$x];
 		$itemName = $_SESSION["purchases".$x];

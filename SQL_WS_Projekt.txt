@@ -16,8 +16,8 @@ PRIMARY KEY (email)
 CREATE TABLE items
 (
 itemId INT NOT NULL AUTO_INCREMENT,
-itemName VARCHAR(30) NOT NULL,
-cost INT,
+itemName VARCHAR(512) NOT NULL,
+cost VARCHAR(512),
 PRIMARY KEY (itemId)
 );
 
@@ -32,6 +32,6 @@ FOREIGN KEY (email) REFERENCES users(email)
 );
 
 INSERT INTO items (itemName,cost)
-VALUES ("banana", 5);
+VALUES ("banana", "5");
 INSERT INTO items (itemName,cost)
-VALUES ("apple", 30);
+VALUES ("apple", "30");

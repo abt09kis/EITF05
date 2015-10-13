@@ -1,20 +1,13 @@
 <?php
-	$token = $_POST['token'];
-	if($token != $_COOKIE['session_id']){
-		if(!function_exists("redirect")){
-			function redirect($url){
-				$h = "Location: " . $url;
-				header($h);
-				die();
-			}
+function checkCSRF(){
+		if(is_null($_POST['token'])){
+			return false;
 		}
-
-		$_SESSION = array();
-		if(ini_get('session.use_cookies')){
-			$params = session_get_cookie_params();
-			setcookie(session_name(), ' ', time() - 42000, $params['path'], $params['domain'],$params['secure'], $params['httponly']);
+		$token = $_POST['token'];
+		if($token == session_id()){
+			return true;
+		}else{
+			return false;
 		}
-		session_destroy();
-		redirect("https://127.0.0.1/");
 	}
 ?>

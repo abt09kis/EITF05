@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	include_once "testlogin.php";
+	//include_once "testlogin.php";
 
-	$logout = $_POST['Logout'];
+	//$logout = $_POST['Logout'];
 	// logout() will log the user out, clear all session variables and unset coookies in addition to terminating the session.
 
 		$_SESSION = array();
@@ -12,5 +12,5 @@
 		}
 
 	session_destroy();
-	redirect("https://127.0.0.1/");
+	header("https://127.0.0.1/");
 ?>

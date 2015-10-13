@@ -35,20 +35,17 @@
 	}
 
 	function addUser($mysqli, $email, $pwd) {
-
-
-		echo $sql;	
 		$crypto = new Crypto();
 		$salt = $crypto->generateSalt(10);
 		$hash = $crypto->generateHash($pwd, $salt);
 		$sql = "INSERT INTO users(email, hash, salt, nbrAttempts) 
 			VALUES('" . $email . "', '" . $hash ."', '". $salt ."', '0')";
-		$reassure = "SELECT COUNT(*) FROM users WHERE email = ";
 		$mysqli->multi_query($sql);
-
+		
 		$_SESSION['isLoggedIn'] = 1;
 		$_SESSION['username'] = $email;
-		//redirect("https://127.0.0.1/searchView.php");
+		
+		redirect("https://127.0.0.1/searchView.php");
 	}
 
 	$token = $_POST['token'];
