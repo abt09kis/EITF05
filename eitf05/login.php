@@ -35,10 +35,12 @@
 			// Validate input ...
 			$validPass = $incheck->isValidPassword($password);
 			$validUserName = $incheck->isValidUsername($username);
-
 			echo 'Attempted login: ' . $username . $password;
-
-			if(!$validPass || !$validUserName){
+			if(!$validUserName){
+				redirect("https://127.0.0.1/");
+			}
+			if(!$validPass){
+				attemptLogin($username);
 				redirect("https://127.0.0.1/");
 			}
 			if(!dbLogin($username,$password)) {
@@ -114,7 +116,7 @@
 
 	function isUserBlocked($username){
 		$ip = clientIP();
-		$filename = "login_data.txt";
+		$filename = "../nonPublic/login_data.txt";
 		$f = fopen($filename, "r");
 		$contents = fread($f, filesize($filename));
 		$attempts = json_decode($contents, true);
@@ -130,26 +132,23 @@
 
 	function nbrAttempts($username){
 		$ip = clientIP();
-		$filename = "login_data.txt";
+		$filename = "../nonPublic/login_data.txt";
 		$f = fopen($filename, "r");
 		$contents = fread($f, filesize($filename));
 		$attempts = json_decode($contents, true);
 		return $attempts[$ip][$username]["nbrAttempts"];
 	}
 
-	/**
-	 * Block attempts
-	 * Need to validate uid !
-	 */
 	function attemptLogin($username) {
 		$ip = clientIP();
-		$filename = "login_data.txt";
+		$filename = "../nonPublic/login_data.txt";
 		$f = fopen($filename, "r");
 		$contents = fread($f, filesize($filename));
 
 		$attempts = json_decode($contents, true);
 		$attempts = createJson($attempts, $ip, $username);
 
+		echo "Writing: " . $attempts;
 		$f = fopen($filename, "w");
 		fwrite($f, $attempts . "\n");
 		fclose($f);
